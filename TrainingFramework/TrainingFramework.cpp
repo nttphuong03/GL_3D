@@ -10,25 +10,36 @@
 #include <iostream>
 #include "Texture.h"
 #include "../Model.h"
+#include "MVP.h"
+#include <math.h>
+
+
+
 GLuint vboId, iboId, textureId;
 Shaders myShaders;
 Model* model;
 Texture* texture;
+MVP* mvp;
+
+
 int Init(ESContext* esContext)
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	//Texture
 	texture = new Texture("../ResourcesPacket/Textures/Woman1.tga");
 	texture->Init();
 	glBindTexture(GL_TEXTURE_2D, texture->mTextureId);
+
 	//Model
 	model = new Model("../ResourcesPacket/Models/Woman1.nfg");
 	model->Init();
 	glBindBuffer(GL_ARRAY_BUFFER, model->mVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->mIBO);
 
+	
 	//creation of shaders and program 
 	return myShaders.Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
 
@@ -43,6 +54,12 @@ void Draw(ESContext* esContext)
 	//glBindBuffer(GL_ARRAY_BUFFER, vboId);
 	glBindBuffer(GL_ARRAY_BUFFER, model->mVBO);
 
+	mvp = new MVP(myShaders);
+	mvp->RotateY(180);
+	mvp->Scale(0.5, 0.5, 0.5);
+	mvp->Translate(Vector3(0, 0, -0.2));
+	mvp->Transform();
+	delete(mvp);
 	if (myShaders.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(myShaders.positionAttribute);
@@ -101,6 +118,8 @@ int _tmain(int argc, TCHAR* argv[])
 	esRegisterDrawFunc(&esContext, Draw);
 	esRegisterUpdateFunc(&esContext, Update);
 	esRegisterKeyFunc(&esContext, Key);
+
+	
 
 	esMainLoop(&esContext);
 
