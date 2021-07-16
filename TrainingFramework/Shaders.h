@@ -1,7 +1,7 @@
 #pragma once
 #include "../Utilities/utilities.h"
 
-class Shaders 
+class Shaders
 {
 public:
 	GLuint program, vertexShader, fragmentShader;
@@ -10,8 +10,6 @@ public:
 	GLint positionAttribute;
 	GLint colorAttribute;
 	GLint uvAttribute;
-	GLint uniformLocation;
-
-	int Init(char * fileVertexShader, char * fileFragmentShader);
+	int Init(char* fileVertexShader, char* fileFragmentShader);
 	~Shaders();
 };

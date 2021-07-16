@@ -1,18 +1,19 @@
-#include <stdafx.h>
+
+#include "stdafx.h"
 #include "Shaders.h"
 
-int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
+int Shaders::Init(char* fileVertexShader, char* fileFragmentShader)
 {
 	vertexShader = esLoadShader(GL_VERTEX_SHADER, fileVertexShader);
 
-	if ( vertexShader == 0 )
+	if (vertexShader == 0)
 		return -1;
 
 	fragmentShader = esLoadShader(GL_FRAGMENT_SHADER, fileFragmentShader);
 
-	if ( fragmentShader == 0 )
+	if (fragmentShader == 0)
 	{
-		glDeleteShader( vertexShader );
+		glDeleteShader(vertexShader);
 		return -2;
 	}
 
@@ -22,8 +23,6 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 	positionAttribute = glGetAttribLocation(program, "a_posL");
 	colorAttribute = glGetAttribLocation(program, "a_color");
 	uvAttribute = glGetAttribLocation(program, "a_uv");
-	uniformLocation = glGetUniformLocation(program, "u_s_texture");
-
 	return 0;
 }
 

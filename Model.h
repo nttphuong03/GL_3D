@@ -1,15 +1,17 @@
 #pragma once
 #include "../Utilities/utilities.h"
+#include <cstdio>
+#include <GLES2/gl2.h>
 
 class Model
 {
 public:
-	char* fileModel;
+	char* modelFile;
+	bool InitNFG(FILE* file);
 	GLuint mVBO;
 	GLuint mIBO;
-	int indicesNumber;
-
-	int Init(char* fileModel);
-	int readFile(FILE* file);
+	int mNumberOfIndices;
+	void Init();
+	Model(const char* modelFile);
 	~Model();
 };
