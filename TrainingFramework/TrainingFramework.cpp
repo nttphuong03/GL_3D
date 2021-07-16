@@ -102,6 +102,10 @@ void CleanUp()
 {
 	glDeleteBuffers(1, &vboId);
 	glDeleteBuffers(1, &iboId);
+	model->~Model();
+	delete model;
+	texture->~Texture();
+	delete texture;
 }
 
 int _tmain(int argc, TCHAR* argv[])
