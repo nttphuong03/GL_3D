@@ -12,6 +12,10 @@ public:
 	GLint uvAttribute;
 	GLint transform;
 
+	GLint u_Model;
+	GLint u_View;
+	GLint u_Projection;
+
 	int Init(char* fileVertexShader, char* fileFragmentShader);
 	~Shaders();
 };

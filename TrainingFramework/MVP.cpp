@@ -35,11 +35,13 @@ void MVP::Translate(Vector3 transVector) {
 	translateM.SetTranslation(transVector);
 }
 
-void MVP::Transform() {
+void MVP::Transform(Matrix view, Matrix projection) {
 	Matrix rotation = Rz * Ry * Rx;
 	Matrix world = scaleM * rotation * translateM;
-	GLint tranformLoc = glGetUniformLocation(shader.program, "u_MVP");
-	glUniformMatrix4fv(tranformLoc, 1, GL_FALSE, *world.m);
+	
+	glUniformMatrix4fv(shader.u_Model, 1, GL_FALSE, *world.m);
+	glUniformMatrix4fv(shader.u_View, 1, GL_FALSE, *view.m);
+	glUniformMatrix4fv(shader.u_Projection, 1, GL_FALSE, *projection.m);
 }
 
 MVP::~MVP() {

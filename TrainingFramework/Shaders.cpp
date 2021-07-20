@@ -24,6 +24,10 @@ int Shaders::Init(char* fileVertexShader, char* fileFragmentShader)
 	colorAttribute = glGetAttribLocation(program, "a_color");
 	uvAttribute = glGetAttribLocation(program, "a_uv");
 	transform = glGetUniformLocation(program, "MVP");
+
+	u_Model = glGetUniformLocation(program, "u_Model");
+	u_View = glGetUniformLocation(program, "u_View");
+	u_Projection = glGetUniformLocation(program, "u_Projection");
 	return 0;
 }
 

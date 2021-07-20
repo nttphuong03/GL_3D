@@ -1,19 +1,5 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   TrainingFramework.cpp
-F:\TrainingFramework_VS2013\TrainingFramework\TrainingFramework.cpp(60,35): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-  Model.cpp
-F:\TrainingFramework_VS2013\Model.cpp(10,2): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(24,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(25,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(26,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(27,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(28,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(29,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(39,2): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(50,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(51,3): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(65,20): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
-F:\TrainingFramework_VS2013\Model.cpp(78,15): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Camera.cpp
   Generating Code...
-F:\TrainingFramework_VS2013\Model.cpp(62): warning C4715: 'Model::InitNFG': not all control paths return a value
   TrainingFramework.vcxproj -> F:\TrainingFramework_VS2013\BIN\TrainingFramework.exe

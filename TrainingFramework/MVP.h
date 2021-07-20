@@ -19,6 +19,6 @@ public:
 	void RotateZ(float angle);
 	void Scale(float scaleX, float scaleY, float scaleZ );
 	void Translate(Vector3 transVector);
-	void Transform();
+	void Transform(Matrix view, Matrix projection);
 	~MVP();
 };
