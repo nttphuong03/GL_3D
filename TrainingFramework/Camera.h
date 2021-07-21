@@ -26,7 +26,7 @@ public:
 
 	Matrix mPerspectiveMatrix;
 
-	Matrix Rx, Ry, Rz, T;
+	Matrix T;
 
 	Camera();
 	Camera( Vector3 position, Vector3 up = Vector3(0.0f, 1.0f, 0.0f), Vector3 target = Vector3(0.0f, 0.0f, 0.0f));
@@ -48,4 +48,5 @@ public:
 
 private:
 	void updateCameraVectors();
+	float limitAngle(float angle);
 };

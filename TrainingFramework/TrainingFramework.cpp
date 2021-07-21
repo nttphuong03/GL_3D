@@ -21,6 +21,9 @@
 #define ROTATE_X 1 << 4
 #define ROTATE_Y 1 << 5
 #define ROTATE_Z 1 << 6
+#define ROTATE_X_NEG 1 << 7
+#define ROTATE_Y_NEG 1 << 8
+#define ROTATE_Z_NEG 1 << 9
 
 
 int keyPressed = 0;
@@ -30,7 +33,7 @@ Shaders myShaders;
 Model* model;
 Texture* texture;
 MVP* mvp;
-Camera* camera = new Camera( Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f,0.0f,0.0f));
+Camera camera = Camera( Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f,0.0f,0.0f));
 
 
 int Init(ESContext* esContext)
@@ -66,7 +69,7 @@ void Draw(ESContext* esContext)
 	glBindBuffer(GL_ARRAY_BUFFER, model->mVBO);
 
 	mvp = new MVP(myShaders);
-	mvp->Transform(camera->GetViewMatrix(), camera->GetPerspectiveMatrix());
+	mvp->Transform(camera.GetViewMatrix(), camera.GetPerspectiveMatrix());
 
 	delete(mvp);
 
@@ -100,98 +103,133 @@ void Draw(ESContext* esContext)
 
 void Update(ESContext* esContext, float deltaTime)
 {
-	if (keyPressed & MOVE_FORWARD) {
-		//TODO: move forward of camera
-		camera->MoveForward(deltaTime);
-	}
-
-	if (keyPressed & MOVE_BACKWARD) {
-		camera->MoveBackward(deltaTime);
-	}
-
-	if (keyPressed & MOVE_LEFT) {
-		camera->MoveLeft(deltaTime);
-	}
-
-	if (keyPressed & MOVE_RIGHT) {
-		camera->MoveRight(deltaTime);
-	}
+	
 	if (keyPressed & ROTATE_X) {
-		camera->RotationAroundX(deltaTime);
+		camera.RotationAroundX(deltaTime);
 	}
 
 	if (keyPressed & ROTATE_Y) {
-		camera->RotationAroundY(deltaTime);
+		camera.RotationAroundY(deltaTime);
 	}
 	if (keyPressed & ROTATE_Z) {
-		camera->RotationAroundZ(deltaTime);
+		camera.RotationAroundZ(deltaTime);
 	}
-	camera->Update();
+	if (keyPressed & ROTATE_X_NEG) {
+		camera.RotationAroundX(-deltaTime);
+	}
+
+	if (keyPressed & ROTATE_Y_NEG) {
+		camera.RotationAroundY(-deltaTime);
+	}
+	if (keyPressed & ROTATE_Z_NEG) {
+		camera.RotationAroundZ(-deltaTime);
+	}
+	if (keyPressed & MOVE_FORWARD) {
+		//TODO: move forward of camera
+		camera.MoveForward(deltaTime);
+	}
+
+	if (keyPressed & MOVE_BACKWARD) {
+		camera.MoveBackward(deltaTime);
+	}
+
+	if (keyPressed & MOVE_LEFT) {
+		camera.MoveLeft(deltaTime);
+	}
+
+	if (keyPressed & MOVE_RIGHT) {
+		camera.MoveRight(deltaTime);
+	}
+	camera.Update();
 }
 
 void Key(ESContext* esContext, unsigned char key, bool bIsPressed)
 {
 	if (bIsPressed) {
 		if (key == VK_UP) {
-			keyPressed = keyPressed | MOVE_FORWARD;
+			keyPressed = keyPressed | ROTATE_X;
 			return;
 		}
 
 		if (key == VK_DOWN) {
-			keyPressed = keyPressed | MOVE_BACKWARD;
+			keyPressed = keyPressed | ROTATE_X_NEG;
 			return;
 		}
 
 		if (key == VK_LEFT) {
-			keyPressed = keyPressed | MOVE_LEFT;
+			keyPressed = keyPressed | ROTATE_Y;
 			return;
 		}
 		if (key == VK_RIGHT) {
+			keyPressed = keyPressed | ROTATE_Y_NEG;
+			return;
+		}
+		if (key == 'a' || key == 'A') {
+			keyPressed = keyPressed | MOVE_LEFT;
+			return;
+		}
+		if (key == 'w' || key == 'W') {
+			keyPressed = keyPressed | MOVE_FORWARD;
+			return;
+		}
+		if (key == 's' || key == 'S') {
+			keyPressed = keyPressed | MOVE_BACKWARD;
+			return;
+		}
+		if (key == 'd' || key == 'D') {
 			keyPressed = keyPressed | MOVE_RIGHT;
-			return;
-		}
-		if (key == 'x' || key == 'X') {
-			keyPressed = keyPressed | ROTATE_X;
-			return;
-		}
-		if (key == 'y' || key == 'Y') {
-			keyPressed = keyPressed | ROTATE_Y;
 			return;
 		}
 		if (key == 'z' || key == 'Z') {
 			keyPressed = keyPressed | ROTATE_Z;
 			return;
 		}
+		if (key == 'v' || key == 'V') {
+			keyPressed = keyPressed | ROTATE_Z_NEG;
+			return;
+		}
 	}
 	else {
 		if (key == VK_UP) {
-			keyPressed = keyPressed ^ MOVE_FORWARD;
+			keyPressed = keyPressed ^ ROTATE_X;
 			return;
 		}
 
 		if (key == VK_DOWN) {
-			keyPressed = keyPressed ^ MOVE_BACKWARD;
+			keyPressed = keyPressed ^ ROTATE_X_NEG;
 			return;
 		}
 
 		if (key == VK_LEFT) {
-			keyPressed = keyPressed ^ MOVE_LEFT;
+			keyPressed = keyPressed ^ ROTATE_Y;
 			return;
 		}
 		if (key == VK_RIGHT) {
+			keyPressed = keyPressed ^ ROTATE_Y_NEG;
+			return;
+		}
+		if (key == 'a' || key == 'A') {
+			keyPressed = keyPressed ^ MOVE_LEFT;
+			return;
+		}
+		if (key == 'w' || key == 'W') {
+			keyPressed = keyPressed ^ MOVE_FORWARD;
+			return;
+		}
+		if (key == 's' || key == 'S') {
+			keyPressed = keyPressed ^ MOVE_BACKWARD;
+			return;
+		}
+		if (key == 'd' || key == 'D') {
 			keyPressed = keyPressed ^ MOVE_RIGHT;
-			return;
-		}
-		if (key == 'x' || key == 'X') {
-			keyPressed = keyPressed ^ ROTATE_X;
-			return;
-		}
-		if (key == 'y' || key == 'Y') {
-			keyPressed = keyPressed ^ ROTATE_Y;
 			return;
 		}
 		if (key == 'z' || key == 'Z') {
 			keyPressed = keyPressed ^ ROTATE_Z;
+			return;
+		}
+		if (key == 'v' || key == 'V') {
+			keyPressed = keyPressed ^ ROTATE_Z_NEG;
 			return;
 		}
 	}

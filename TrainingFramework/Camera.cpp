@@ -13,7 +13,6 @@ Camera::Camera() {
 	float aspect = (float)Globals::screenWidth / Globals::screenHeight;
 	mPerspectiveMatrix.SetPerspective(mFOV, aspect, mNear, mFar);
 
-	Rx.SetIdentity(); Ry.SetIdentity(); Rz.SetIdentity();
 	T.SetIdentity();
 
 	updateCameraVectors();
@@ -56,8 +55,10 @@ void  Camera::MoveRight(GLfloat deltaTime) {
 }
 
 void Camera::RotationAroundX(GLfloat deltaTime) {
-	Vector4 rotationAxis = Vector4(1,0,0, 1) * GetViewMatrix();
+	//caculate angle
 	float angle = deltaTime * movementSpeed;
+
+	Vector4 rotationAxis = Vector4( 1,0, 0, 0) * GetViewMatrix();
 	Matrix rotation;
 	rotation.SetIdentity();
 	rotation = rotation.SetRotationAngleAxis(angle, rotationAxis.x, rotationAxis.y, rotationAxis.z);
@@ -67,19 +68,23 @@ void Camera::RotationAroundX(GLfloat deltaTime) {
 	target = Vector3(worldNewTarget.x, worldNewTarget.y, worldNewTarget.z);
 }
 void Camera::RotationAroundY(GLfloat deltaTime) {
-	Vector4 rotationAxis = Vector4(0, 1, 0, 1) * GetViewMatrix();
+	//caculate angle
 	float angle = deltaTime * movementSpeed;
+
+	Vector4 rotationAxis = Vector4(0, 1, 0, 0) * GetViewMatrix();
 	Matrix rotation;
 	rotation.SetIdentity();
 	rotation = rotation.SetRotationAngleAxis(angle, rotationAxis.x, rotationAxis.y, rotationAxis.z);
 	Vector4 localTarget = Vector4(0, 0, -(position-this->target).Length(), 1);
 	Vector4 localNewTarget = localTarget * rotation;
 	Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
+
 	target = Vector3(worldNewTarget.x, worldNewTarget.y, worldNewTarget.z);
 }
 void Camera::RotationAroundZ(GLfloat deltaTime) {
-	Vector4 rotationAxis = Vector4(0, 0,1,  1) * GetViewMatrix();
-	float angle = deltaTime * movementSpeed;
+	float angle = (deltaTime * movementSpeed);
+
+	Vector4 rotationAxis = Vector4(0, 0,1,  0) * GetViewMatrix();
 	Matrix rotation;
 	rotation.SetIdentity();
 	rotation = rotation.SetRotationAngleAxis(angle, rotationAxis.x, rotationAxis.y, rotationAxis.z);
@@ -97,8 +102,9 @@ Matrix Camera::GetWorldMatrix() {
 	R.m[0][0] = xaxis.x, R.m[0][1] = xaxis.y, R.m[0][2] = xaxis.z;
 	R.m[1][0] = yaxis.x, R.m[1][1] = yaxis.y, R.m[1][2] = yaxis.z;
 	R.m[2][0] = zaxis.x, R.m[2][1] = zaxis.y, R.m[2][2] = zaxis.z;
-	
-	return R * T;
+
+	Matrix world = R * T;
+	return world;
 }
 Matrix Camera::GetViewMatrix() {
 	//front: xaxis, up: yaxis, right: zaxis
