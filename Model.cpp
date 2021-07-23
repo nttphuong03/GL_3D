@@ -3,6 +3,10 @@
 #include <string.h>
 #include <conio.h>
 #include "TrainingFramework/Vertex.h"
+#include <string>
+
+
+using namespace std;
 
 bool Model::InitNFG(FILE* file)
 {
@@ -13,7 +17,6 @@ bool Model::InitNFG(FILE* file)
 	Vertex* vertices = new Vertex[numberOfVertices];
 	for (int i = 0; i < numberOfVertices; ++i)
 	{
-		//fscanf(file, "pos[%f,%f,%f];", (vertices + i)->pos.x, (vertices + i)->pos.y, (vertices + i)->pos.z);
 		float posX, posY, posZ;
 		float normX, normY, normZ;
 		float binormX, binormY, binormZ;
@@ -57,28 +60,38 @@ bool Model::InitNFG(FILE* file)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	this->mNumberOfIndices = numberOfIndices;
 
+	glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
 	delete[] indices;
 	delete[] vertices;
 }
-Model::Model(const char* modelFile)
-{
-	this->modelFile = strdup(modelFile);
-}
+
+Model::Model() {}
+
 Model::~Model()
 {
-	delete(modelFile);
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &mVBO);
-	glDeleteBuffers(1, &mIBO);
+	//glDeleteBuffers(1, &mVBO);
+	//glDeleteBuffers(1, &mIBO);
 }
 void Model::Init()
 {
 	FILE* file = fopen(modelFile, "rb");
 	if (file != NULL)
 	{
+		printf("\nfile Model is: %s", modelFile);
 		bool result = InitNFG(file);
 		fclose(file);
 	}
+	else {
+		printf("\nfail to open file model: %s", modelFile);
+	}
+}
+void Model::Draw() {
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+	glDrawElements(GL_TRIANGLES, mNumberOfIndices, GL_UNSIGNED_INT, 0);
 }

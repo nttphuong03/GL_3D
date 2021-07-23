@@ -44,6 +44,14 @@ void MVP::Transform(Matrix view, Matrix projection) {
 	glUniformMatrix4fv(shader.u_Projection, 1, GL_FALSE, *projection.m);
 }
 
+void MVP::Transform(Matrix model, Matrix view, Matrix projection) {
+
+	glUniformMatrix4fv(shader.u_Model, 1, GL_FALSE, *model.m);
+	glUniformMatrix4fv(shader.u_View, 1, GL_FALSE, *view.m);
+	glUniformMatrix4fv(shader.u_Projection, 1, GL_FALSE, *projection.m);
+}
+
+
 MVP::~MVP() {
 
 }

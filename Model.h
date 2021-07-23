@@ -6,12 +6,18 @@
 class Model
 {
 public:
-	char* modelFile;
+	char modelFile[70];
+	float scale;
+	float offset;
 	bool InitNFG(FILE* file);
 	GLuint mVBO;
 	GLuint mIBO;
 	int mNumberOfIndices;
-	void Init();
-	Model(const char* modelFile);
+	
+
+	Model();
+	Model(char* modelFile);
 	~Model();
+	void Init();
+	void Draw();
 };

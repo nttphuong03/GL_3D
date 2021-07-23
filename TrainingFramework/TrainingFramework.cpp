@@ -14,6 +14,12 @@
 #include <math.h>
 #include "Camera.h"
 
+#include "SceneManager.h"
+#include <vector>
+
+using namespace std;
+
+
 #define MOVE_FORWARD 1
 #define MOVE_BACKWARD 1 << 1
 #define MOVE_LEFT 1 << 2
@@ -30,28 +36,21 @@ int keyPressed = 0;
 
 GLuint vboId, iboId, textureId;
 Shaders myShaders;
-Model* model;
-Texture* texture;
+Model model;
+vector<Texture> textures;
 MVP* mvp;
-Camera camera = Camera( Vector3(0.0f, 0.0f, 3.0f), Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f,0.0f,0.0f));
+Camera camera;
+SceneManager* scene = SceneManager::GetInstance();
 
 
 int Init(ESContext* esContext)
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	scene->Init("../ResourcesPacket/SM.txt");
 
-	//Texture
-	texture = new Texture("../ResourcesPacket/Textures/Woman1.tga");
-	texture->Init();
-	glBindTexture(GL_TEXTURE_2D, texture->mTextureId);
-
-	//Model
-	model = new Model("../ResourcesPacket/Models/Woman1.nfg");
-	model->Init();
-	glBindBuffer(GL_ARRAY_BUFFER, model->mVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->mIBO);
+	camera = scene->cameras[0];
 
 	//creation of shaders and program 
 	return myShaders.Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
@@ -61,44 +60,43 @@ int Init(ESContext* esContext)
 void Draw(ESContext* esContext)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glUseProgram(myShaders.program);
-
-	glBindTexture(GL_TEXTURE_2D, texture->mTextureId);
-	//glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, model->mVBO);
-
-	mvp = new MVP(myShaders);
-	mvp->Transform(camera.GetViewMatrix(), camera.GetPerspectiveMatrix());
-
-	delete(mvp);
-
-	if (myShaders.positionAttribute != -1)
+	for (int i = 0; i < scene-> objectNum; i++)
 	{
-		glEnableVertexAttribArray(myShaders.positionAttribute);
-		glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+		int textureNum = scene->objectList.at(i)->textureNum;
+		Object* o = scene->objectList.at(i);
+		textures = scene->objectList.at(i)->texturesObj;
+		model = scene->objectList.at(i)->modelObj;
+
+		glUseProgram(myShaders.program);
+		
+		for (int j = 0; j < textureNum; j++) {
+			glBindTexture(GL_TEXTURE_2D, textures.at(j).mTextureId);
+
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, model.mVBO);
+		if (myShaders.positionAttribute != -1)
+		{
+			glEnableVertexAttribArray(myShaders.positionAttribute);
+			glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+		}
+		if (myShaders.uvAttribute != -1)
+		{
+			glEnableVertexAttribArray(myShaders.uvAttribute);
+			glVertexAttribPointer(myShaders.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vector3)));
+		}
+		glUniformMatrix4fv(myShaders.u_Model, 1, GL_FALSE, *o->GetModelMatrix().m);
+		glUniformMatrix4fv(myShaders.u_Projection, 1, GL_FALSE, *camera.GetPerspectiveMatrix().m);
+		glUniformMatrix4fv(myShaders.u_View, 1, GL_FALSE, *camera.GetViewMatrix().m);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.mIBO);
+		glDrawElements(GL_TRIANGLES, model.mNumberOfIndices, GL_UNSIGNED_INT, 0);
 	}
-	if (myShaders.colorAttribute != -1)
-	{
-		glEnableVertexAttribArray(myShaders.colorAttribute);
-		glVertexAttribPointer(myShaders.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(Vector3));
-	}
-
-	if (myShaders.uvAttribute != -1)
-	{
-		glEnableVertexAttribArray(myShaders.uvAttribute);
-		glVertexAttribPointer(myShaders.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vector3)));
-	}
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->mIBO);
-
-	glDrawElements(GL_TRIANGLES, model->mNumberOfIndices, GL_UNSIGNED_INT, 0);
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+
 }
 
 void Update(ESContext* esContext, float deltaTime)
@@ -239,10 +237,7 @@ void CleanUp()
 {
 	glDeleteBuffers(1, &vboId);
 	glDeleteBuffers(1, &iboId);
-	model->~Model();
-	delete model;
-	texture->~Texture();
-	delete texture;
+	
 }
 
 int _tmain(int argc, TCHAR* argv[])

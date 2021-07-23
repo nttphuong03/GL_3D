@@ -7,6 +7,9 @@ public:
 	GLuint program, vertexShader, fragmentShader;
 	char fileVS[260];
 	char fileFS[260];
+	bool depth_test, cull_face, blend;
+	char src_alpha[50], scr_one[200];
+
 	GLint positionAttribute;
 	GLint colorAttribute;
 	GLint uvAttribute;

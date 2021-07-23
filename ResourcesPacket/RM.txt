@@ -1,0 +1,121 @@
+#Models: 8
+ID 0
+FILE ../ResourcesPacket/Models/Woman1.nfg
+ID 1
+FILE ../ResourcesPacket/Models/Woman2.nfg
+ID 2
+FILE ../ResourcesPacket/Models/SkyBox.nfg
+ID 3
+FILE ../ResourcesPacket/Models/b_yasuo.obj
+ID 4
+FILE ../ResourcesPacket/Textures/heightmap.raw
+SCALE 0.05
+OFFSET -2
+ID 5
+FILE ../ResourcesPacket/Models/Terrain.nfg
+ID 6
+FILE ../ResourcesPacket/Models/Bila.nfg
+ID 7
+FILE ../ResourcesPacket/Models/fire.nfg
+
+#2D Textures: 12
+ID 0
+FILE ../ResourcesPacket/Textures/Woman1.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 1
+FILE ../ResourcesPacket/Textures/Woman2.tga
+WRAP REPEAT
+FILTER LINEAR_LINEAR LINEAR
+ID 2
+FILE ../ResourcesPacket/Textures/Terrain_blendmap_1.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 3
+FILE ../ResourcesPacket/Textures/Dirt.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 4
+FILE ../ResourcesPacket/Textures/Grass.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 5
+FILE ../ResourcesPacket/Textures/Rock.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 6
+FILE ../ResourcesPacket/Textures/b_yasuo.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 7
+FILE ../ResourcesPacket/Textures/fire3.tga
+WRAP CLAMP
+FILTER LINEAR LINEAR
+ID 8
+FILE ../ResourcesPacket/Textures/DisplacementMap.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 9
+FILE ../ResourcesPacket/Textures/fire_mask.tga
+WRAP CLAMP
+FILTER LINEAR LINEAR
+ID 10
+FILE ../ResourcesPacket/Textures/Orange.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+ID 11
+FILE ../ResourcesPacket/Textures/NormalMap.tga
+WRAP REPEAT
+FILTER LINEAR LINEAR
+
+#Cube Textures: 1
+ID 0
+FILE ../ResourcesPacket/Textures/envMap.tga
+WRAP CLAMP
+FILTER LINEAR LINEAR
+
+#Shaders: 7
+ID 0
+VS Shaders/Object.vs
+FS Shaders/Object.fs
+STATES 2
+GL_DEPTH_TEST 1
+GL_CULL_FACE 1
+ID 1
+VS Shaders/Skybox.vs
+FS Shaders/Skybox.fs
+STATES 2
+GL_DEPTH_TEST 1
+GL_CULL_FACE 0
+ID 2
+VS Shaders/Terrain.vs
+FS Shaders/Terrain.fs
+STATES 2
+GL_DEPTH_TEST 1
+GL_CULL_FACE 1
+ID 3
+VS Shaders/UvDisplacement.vs
+FS Shaders/UvDisplacement.fs
+STATES 3
+GL_DEPTH_TEST 1
+GL_CULL_FACE 0
+GL_BLEND 1
+GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+ID 4
+VS Shaders/Reflection.vs
+FS Shaders/Reflection.fs
+STATES 2
+GL_DEPTH_TEST 1
+GL_CULL_FACE 0
+ID 5
+VS Shaders/Lighting.vs
+FS Shaders/Lighting.fs
+STATES 2
+GL_DEPTH_TEST 1
+GL_CULL_FACE 1
+ID 6
+VS Shaders/NormalMapping.vs
+FS Shaders/NormalMapping.fs
+STATES 2
+GL_DEPTH_TEST 1
+GL_CULL_FACE 1
