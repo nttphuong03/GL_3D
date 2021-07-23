@@ -66,27 +66,27 @@ void Draw(ESContext* esContext)
 		Object* o = scene->objectList.at(i);
 		textures = scene->objectList.at(i)->texturesObj;
 		model = scene->objectList.at(i)->modelObj;
-
-		glUseProgram(myShaders.program);
+		Shaders shader = scene->objectList.at(i)->shaderObj;
+		glUseProgram(shader.program);
 		
 		for (int j = 0; j < textureNum; j++) {
 			glBindTexture(GL_TEXTURE_2D, textures.at(j).mTextureId);
 
 		}
 		glBindBuffer(GL_ARRAY_BUFFER, model.mVBO);
-		if (myShaders.positionAttribute != -1)
+		if (shader.positionAttribute != -1)
 		{
-			glEnableVertexAttribArray(myShaders.positionAttribute);
-			glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+			glEnableVertexAttribArray(shader.positionAttribute);
+			glVertexAttribPointer(shader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 		}
-		if (myShaders.uvAttribute != -1)
+		if (shader.uvAttribute != -1)
 		{
-			glEnableVertexAttribArray(myShaders.uvAttribute);
-			glVertexAttribPointer(myShaders.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vector3)));
+			glEnableVertexAttribArray(shader.uvAttribute);
+			glVertexAttribPointer(shader.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vector3)));
 		}
-		glUniformMatrix4fv(myShaders.u_Model, 1, GL_FALSE, *o->GetModelMatrix().m);
-		glUniformMatrix4fv(myShaders.u_Projection, 1, GL_FALSE, *camera.GetPerspectiveMatrix().m);
-		glUniformMatrix4fv(myShaders.u_View, 1, GL_FALSE, *camera.GetViewMatrix().m);
+		glUniformMatrix4fv(shader.u_Model, 1, GL_FALSE, *o->GetModelMatrix().m);
+		glUniformMatrix4fv(shader.u_Projection, 1, GL_FALSE, *camera.GetPerspectiveMatrix().m);
+		glUniformMatrix4fv(shader.u_View, 1, GL_FALSE, *camera.GetViewMatrix().m);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.mIBO);
 		glDrawElements(GL_TRIANGLES, model.mNumberOfIndices, GL_UNSIGNED_INT, 0);

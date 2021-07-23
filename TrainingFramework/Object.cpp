@@ -27,6 +27,8 @@ void Object::Init() {
 		texturesObj[i].Init();
 	
 	}
+	int status = shaderObj.Init();
+	
 }
 
 Object::Object(){}

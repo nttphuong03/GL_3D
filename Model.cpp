@@ -32,6 +32,13 @@ bool Model::InitNFG(FILE* file)
 		fscanf(file, "uv:[%f, %f];\n ", &uvX, &uvY);
 		(vertices + i)->pos.x = posX; (vertices + i)->pos.y = posY - 1; (vertices + i)->pos.z = posZ;
 		(vertices + i)->coords.x = uvX; (vertices + i)->coords.y = uvY;
+
+	/*	printf( "\n%d. ", id);
+		printf("pos:[%f, %f, %f]; ", posX, posY, posZ);
+		printf("norm:[%f, %f, %f]; ", normX, normY, normZ);
+		printf("binorm:[%f, %f, %f]; ", binormX, binormY, binormZ);
+		printf( "tgt:[%f, %f, %f]; ", tgtX, tgtY, tgtZ);
+		printf( "uv:[%f, %f];\n ", uvX, uvY);*/
 	}
 	glGenBuffers(1, &this->mVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, this->mVBO);
@@ -53,6 +60,9 @@ bool Model::InitNFG(FILE* file)
 		fscanf(file, "%d. ", &id);
 		fscanf(file, " %d, %d, %d\n", &iX, &iY, &iZ);
 		*(indices + i) = iX; *(indices + i + 1) = iY; *(indices + i + 2) = iZ;
+
+	/*	printf( "\n%d. ", id);
+		printf(" %d, %d, %d\n", iX, iY, iZ);*/
 	}
 	glGenBuffers(1, &this->mIBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mIBO);

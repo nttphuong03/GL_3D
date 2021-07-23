@@ -20,5 +20,7 @@ public:
 	GLint u_Projection;
 
 	int Init(char* fileVertexShader, char* fileFragmentShader);
+	int Init();
+
 	~Shaders();
 };
