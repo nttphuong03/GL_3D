@@ -1,4 +1,4 @@
-#Models: 8
+#Models: 7
 ID 0
 FILE ../ResourcesPacket/Models/Woman1.nfg
 ID 1
@@ -6,19 +6,17 @@ FILE ../ResourcesPacket/Models/Woman2.nfg
 ID 2
 FILE ../ResourcesPacket/Models/SkyBox.nfg
 ID 3
-FILE ../ResourcesPacket/Models/b_yasuo.obj
-ID 4
 FILE ../ResourcesPacket/Textures/heightmap.raw
 SCALE 0.05
 OFFSET -2
-ID 5
+ID 4
 FILE ../ResourcesPacket/Models/Terrain.nfg
-ID 6
+ID 5
 FILE ../ResourcesPacket/Models/Bila.nfg
-ID 7
+ID 6
 FILE ../ResourcesPacket/Models/fire.nfg
 
-#2D Textures: 12
+#2D Textures: 11
 ID 0
 FILE ../ResourcesPacket/Textures/Woman1.tga
 WRAP REPEAT
@@ -44,26 +42,22 @@ FILE ../ResourcesPacket/Textures/Rock.tga
 WRAP REPEAT
 FILTER LINEAR LINEAR
 ID 6
-FILE ../ResourcesPacket/Textures/b_yasuo.tga
-WRAP REPEAT
-FILTER LINEAR LINEAR
-ID 7
 FILE ../ResourcesPacket/Textures/fire3.tga
 WRAP CLAMP
 FILTER LINEAR LINEAR
-ID 8
+ID 7
 FILE ../ResourcesPacket/Textures/DisplacementMap.tga
 WRAP REPEAT
 FILTER LINEAR LINEAR
-ID 9
+ID 8
 FILE ../ResourcesPacket/Textures/fire_mask.tga
 WRAP CLAMP
 FILTER LINEAR LINEAR
-ID 10
+ID 9
 FILE ../ResourcesPacket/Textures/Orange.tga
 WRAP REPEAT
 FILTER LINEAR LINEAR
-ID 11
+ID 10
 FILE ../ResourcesPacket/Textures/NormalMap.tga
 WRAP REPEAT
 FILTER LINEAR LINEAR

@@ -17,6 +17,13 @@ void Texture::ConfigTexture()
 
 void Texture::Init()
 {
+	//create texture resource
+	glGenTextures(1, &mTextureId);
+
+	//bind texture to the 2D texture type
+	glBindTexture(GL_TEXTURE_2D, mTextureId);
+
+	//create CPU buffer and load it from image data
 	int iWidth = 0;
 	int iHeight = 0;
 	int iBpp = 0;
@@ -25,9 +32,11 @@ void Texture::Init()
 
 	GLenum format = (iBpp == 24 ? GL_RGB : GL_RGBA);
 
-	glGenTextures(1, &mTextureId);
-
+	//load the image data into texture resource
 	glTexImage2D(GL_TEXTURE_2D, 0, format, iWidth, iHeight, 0, format, GL_UNSIGNED_BYTE, imageData);
+
+	
+
 	if (imageData)
 	{
 		//std::cout << "Load texture succes" << std::endl;
@@ -38,8 +47,17 @@ void Texture::Init()
 	{
 		std::cout << "Fail to load texture: " <<mTgaFilePath<< std::endl;
 	}
+	
+	//free client memory
+	delete[] imageData;
+
 	ConfigTexture();
-	glBindTexture(GL_TEXTURE_2D, mTextureId);
+	
+	//call SetUnifromLocation after Init.
+}
+
+void Texture::SetUniformLocation(char* name) {
+	uniformLocation = glGetUniformLocation(shader.program, name);
 }
 Texture::Texture(char* path, GLenum tiling)
 {
@@ -55,8 +73,4 @@ Texture::Texture() {}
 Texture::~Texture()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void Texture::Draw() {
-	glBindTexture(GL_TEXTURE_2D, mTextureId);
 }

@@ -40,10 +40,7 @@ bool Model::InitNFG(FILE* file)
 		printf( "tgt:[%f, %f, %f]; ", tgtX, tgtY, tgtZ);
 		printf( "uv:[%f, %f];\n ", uvX, uvY);*/
 	}
-	glGenBuffers(1, &this->mVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, this->mVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numberOfVertices, vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
 
 	int numberOfIndices;
 	fscanf(file, "NrIndices: %d\n", &numberOfIndices);
@@ -64,14 +61,17 @@ bool Model::InitNFG(FILE* file)
 	/*	printf( "\n%d. ", id);
 		printf(" %d, %d, %d\n", iX, iY, iZ);*/
 	}
+
+	glGenBuffers(1, &this->mVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, this->mVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numberOfVertices, vertices, GL_STATIC_DRAW);
+
 	glGenBuffers(1, &this->mIBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mIBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * numberOfIndices, indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	
 	this->mNumberOfIndices = numberOfIndices;
-
-	glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+	
 	delete[] indices;
 	delete[] vertices;
 }
@@ -81,11 +81,9 @@ Model::Model() {}
 Model::~Model()
 {
 
+	glDeleteBuffers(1, &mVBO);
+	glDeleteBuffers(1, &mIBO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//glDeleteBuffers(1, &mVBO);
-	//glDeleteBuffers(1, &mIBO);
 }
 void Model::Init()
 {
@@ -99,9 +97,4 @@ void Model::Init()
 	else {
 		printf("\nfail to open file model: %s", modelFile);
 	}
-}
-void Model::Draw() {
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-	glDrawElements(GL_TRIANGLES, mNumberOfIndices, GL_UNSIGNED_INT, 0);
 }

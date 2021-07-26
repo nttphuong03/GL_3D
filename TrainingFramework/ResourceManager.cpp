@@ -20,7 +20,7 @@ void ResourceManager::readFile(FILE* file) {
 		fscanf(file, "ID %d\n", &id);
 		fscanf(file, "FILE %s\n", m.modelFile);
 
-		if (id == 4) {
+		if (id == 3) {
 			fscanf(file, "SCALE %f\n", &m.scale);
 			fscanf(file, "OFFSET %f\n", &m.offset);
 		}

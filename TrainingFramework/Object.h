@@ -6,6 +6,7 @@
 #include "Texture.h"
 #include "Shaders.h"
 #include <vector>
+#include "Camera.h"
 
 using namespace std;
 
@@ -25,9 +26,10 @@ public:
 
 
 	Object();
-	virtual void Draw();
+	virtual void Draw(Camera camera);
 	virtual void Print();
-	void Init();
+	virtual void Init();
+	void CleanUp();
 	Matrix GetModelMatrix();
 
 };

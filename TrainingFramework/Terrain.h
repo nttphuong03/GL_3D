@@ -14,6 +14,7 @@ public:
 	Terrain();
 	~Terrain();
 
+	void Init();
 	void Draw();
 	void Print();
 private:

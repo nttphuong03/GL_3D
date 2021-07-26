@@ -1,6 +1,7 @@
 #pragma once
 #include "../Utilities/utilities.h"
 #include <cstdio>
+#include "Shaders.h"
 class Texture
 {
 private:
@@ -13,10 +14,13 @@ public:
 	GLenum mFilter1, mFilter2;
 	void ConfigTexture();
 	GLuint mTextureId;
-
+	Shaders shader;
+	int uniformLocation;
+	
+	void SetUniformLocation(char* name);
 	void Init();
 	Texture();
 	Texture(char* tgaFilePath, GLenum tiling = GL_REPEAT);
 	~Texture();
-	void Draw();
+	
 };

@@ -59,37 +59,11 @@ int Init(ESContext* esContext)
 
 void Draw(ESContext* esContext)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	for (int i = 0; i < scene-> objectNum; i++)
 	{
-		int textureNum = scene->objectList.at(i)->textureNum;
 		Object* o = scene->objectList.at(i);
-		textures = scene->objectList.at(i)->texturesObj;
-		model = scene->objectList.at(i)->modelObj;
-		Shaders shader = scene->objectList.at(i)->shaderObj;
-		glUseProgram(shader.program);
-		
-		for (int j = 0; j < textureNum; j++) {
-			glBindTexture(GL_TEXTURE_2D, textures.at(j).mTextureId);
-
-		}
-		glBindBuffer(GL_ARRAY_BUFFER, model.mVBO);
-		if (shader.positionAttribute != -1)
-		{
-			glEnableVertexAttribArray(shader.positionAttribute);
-			glVertexAttribPointer(shader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-		}
-		if (shader.uvAttribute != -1)
-		{
-			glEnableVertexAttribArray(shader.uvAttribute);
-			glVertexAttribPointer(shader.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vector3)));
-		}
-		glUniformMatrix4fv(shader.u_Model, 1, GL_FALSE, *o->GetModelMatrix().m);
-		glUniformMatrix4fv(shader.u_Projection, 1, GL_FALSE, *camera.GetPerspectiveMatrix().m);
-		glUniformMatrix4fv(shader.u_View, 1, GL_FALSE, *camera.GetViewMatrix().m);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model.mIBO);
-		glDrawElements(GL_TRIANGLES, model.mNumberOfIndices, GL_UNSIGNED_INT, 0);
+		o->Draw(camera);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -235,6 +209,12 @@ void Key(ESContext* esContext, unsigned char key, bool bIsPressed)
 
 void CleanUp()
 {
+	for (int i = 0; i < scene->objectNum; i++)
+	{
+		Object* o = scene->objectList.at(i);
+		o->CleanUp();
+	}
+	scene->~SceneManager();
 	glDeleteBuffers(1, &vboId);
 	glDeleteBuffers(1, &iboId);
 	

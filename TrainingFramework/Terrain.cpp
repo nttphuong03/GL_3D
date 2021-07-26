@@ -13,3 +13,18 @@ Terrain::~Terrain() {
 
 void Terrain::Draw(){}
 Terrain::Terrain(){}
+void Terrain::Init() {
+	int status = shaderObj.Init(shaderObj.fileVS, shaderObj.fileFS);
+	printf("\nstatus of shader in terrain: %d", status);
+	modelObj.Init();
+
+	for (int i = 0; i < textureNum; i++) {
+		texturesObj[i].shader = shaderObj;
+		texturesObj[i].Init();
+		
+	}
+	texturesObj[0].SetUniformLocation("blendTexture");
+	texturesObj[1].SetUniformLocation("texture1");
+	texturesObj[2].SetUniformLocation("texture2");
+	texturesObj[3].SetUniformLocation("texture3");	
+}

@@ -19,5 +19,4 @@ public:
 	Model(char* modelFile);
 	~Model();
 	void Init();
-	void Draw();
 };

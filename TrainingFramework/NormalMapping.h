@@ -14,6 +14,7 @@ public:
 
 	void Draw();
 	void Print();
-
+	void Init();
+	
 };
 

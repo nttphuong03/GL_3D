@@ -81,7 +81,7 @@ void SceneManager::readFile(FILE* file) {
 		int id;
 		fscanf(file, "ID %d //%s\n", &id, cmt);
 
-		if (id == 4) {
+		if (id == 3) {
 			//read terrain;
 			Terrain* t = new Terrain();
 			fscanf(file, "MODEL %d\n", &t->modelIndex);
@@ -136,7 +136,7 @@ void SceneManager::readFile(FILE* file) {
 
 		}
 
-		else if (id == 7) {
+		else if (id == 6) {
 			//read lighting;
 			Lighting* t = new Lighting(); 
 			fscanf(file, "MODEL %d\n", &t->modelIndex);
@@ -184,7 +184,7 @@ void SceneManager::readFile(FILE* file) {
 
 			this->objectList.push_back(t);
 		}
-		else if (id == 8) {
+		else if (id == 7) {
 			Mapping* t = new Mapping();
 
 			fscanf(file, "MODEL %d\n", &t->modelIndex);
@@ -294,7 +294,8 @@ void SceneManager::Init(char* rmPath) {
 	}
 }
 SceneManager::~SceneManager() {
-
+	delete[] cameras;
+	delete[] lights;
 }
 
 SceneManager::SceneManager() {
@@ -302,51 +303,26 @@ SceneManager::SceneManager() {
 }
 
 
-void SceneManager::CreateAllObjects() {
- //   //Create Object;
-	//for (int j = 0; j < objects.size(); j++) {
-	//	Object* o = objects[j];
 
-	//	o->modelObj =(resource->models[o->modelIndex]);
-	//	
-	//	printf("\ntẽtuẻnumbẻ: %d", o->textureNum);
-	//	o->texturesObj = new Texture[o->textureNum];
-	//	for (int i = 0; i < o->textureNum; i++) {
-	//		printf(" %d ", o->textures[i]);
-
-	//		o->texturesObj[i] = resource->textures[o->textures[i]];
-	//	}
-	//	printf("\n");
-	//	o->shaderObj = (resource->shaders[o->shader]);
-	//}
-}
-
-void SceneManager::Draw() {
-	for (int i = 0; i < objectNum; i++) {
-		Object* o = objectList[i];
-		Terrain* t = dynamic_cast<Terrain*>(o);
-		Lighting* l = dynamic_cast<Lighting*>(o);
-		Mapping* m = dynamic_cast<Mapping*>(o);
-		if (t != nullptr) {
-			t->Draw();
-		}
-		else if (l != nullptr) {
-			l->Draw();
-		}
-		else if (m != nullptr) {
-			m->Draw();
-		}
-		else {
-			o->Draw();
-		}
-
-	}
-}
 void SceneManager::Init() {
 	
 	for (int j = 0; j < objectList.size(); j++) {
 		Object* o = objectList.at(j);
-		o->Init();
+		Terrain* t = dynamic_cast<Terrain*>(o);
+		Lighting* l = dynamic_cast<Lighting*>(o);
+		Mapping* m = dynamic_cast<Mapping*>(o);
+		if (t != nullptr) {
+			t->Init();
+		}
+		else if (l != nullptr) {
+			l->Init();
+		}
+		else if (m != nullptr) {
+			m->Init();
+		}
+		else {
+			o->Init();
+		}
 	}
 }
 void SceneManager::Print() {

@@ -11,9 +11,10 @@ public:
 	float spec_power;
 	Lighting();
 	~Lighting();
+
 	void Draw();
-	
-	 void Print();
+	void Print();
+	void Init();
 
 };
 

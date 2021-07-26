@@ -29,8 +29,6 @@ public:
 	void Init(char* rmPath);
 	~SceneManager();
 	void readFile(FILE* file);
-	void CreateAllObjects();
-	void Draw();
 	void Init();
 	void Print();
 };
